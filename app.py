@@ -9,16 +9,6 @@ app = Flask(__name__)
 app.secret_key = 'my precious'
 
 # Makes you login before you do certain things on the site
-# def login_required(f):
-#     @wraps(f)
-#     def wrap(*args, **kwargs):
-#         if 'logged_in' in session:
-#             return f(*args, **kwargs)
-#         else:
-#             flash('You need to login first')
-#             return redirect(url_for('login'))
-#         return wrap
-
 def login_required(test):
 	@wraps(test)
 	def wrap(*args, **kwargs):
@@ -58,4 +48,4 @@ def logout():
     return redirect(url_for('welcome'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
