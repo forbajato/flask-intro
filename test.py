@@ -1,8 +1,8 @@
-from app import app
+from project import app
 import unittest
 
 class FlaskTestCase(unittest.TestCase):
-    
+
     # Ensure that Flask was set up correctly
     def test_index(self):
         tester = app.test_client(self)
@@ -19,8 +19,8 @@ class FlaskTestCase(unittest.TestCase):
     def test_correct_login(self):
         tester = app.test_client(self)
         response = tester.post(
-            '/login', 
-            data=dict(username="admin", password="admin"), 
+            '/login',
+            data=dict(username="admin", password="admin"),
             follow_redirects=True)
         self.assertIn(b'You were just logged in', response.data)
 
@@ -28,8 +28,8 @@ class FlaskTestCase(unittest.TestCase):
     def test_incorrect_login(self):
         tester = app.test_client(self)
         response = tester.post(
-            '/login', 
-            data=dict(username="tom", password="tom"), 
+            '/login',
+            data=dict(username="tom", password="tom"),
             follow_redirects=True)
         self.assertIn(b'Invalid credentials.  Please try again.', response.data)
 
@@ -54,8 +54,8 @@ class FlaskTestCase(unittest.TestCase):
     def test_post_show_up(self):
         tester = app.test_client(self)
         response = tester.post(
-            '/login', 
-            data=dict(username="admin", password="admin"), 
+            '/login',
+            data=dict(username="admin", password="admin"),
             follow_redirects=True)
         self.assertIn(b'Shell test', response.data)
 
