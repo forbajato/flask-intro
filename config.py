@@ -10,6 +10,7 @@ class BaseConfig(object):
 #    SECRET_KEY = "my precious"
     SECRET_KEY = '\xf0C\x92\xf7\xa8\xf0lQ=\x85\xc1l}\x81\xa7N4\x88\xa3Y\r0\x83\x7f'
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(BaseConfig):
