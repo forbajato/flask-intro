@@ -37,5 +37,17 @@ class User(db.Model):
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+
     def __repr__(self):
         return '<name {}'.format(self.name)
