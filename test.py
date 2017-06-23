@@ -31,7 +31,7 @@ class FlaskTestCase(unittest.TestCase):
             '/login',
             data=dict(username="tom", password="tom"),
             follow_redirects=True)
-        self.assertIn(b'Invalid credentials.  Please try again.', response.data)
+        self.assertIn(b'Invalid credentials. Please try again.', response.data)
 
     # Ensure that logout behaves correctly
     def test_logout(self):
