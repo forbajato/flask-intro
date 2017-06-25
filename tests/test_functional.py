@@ -1,27 +1,10 @@
+# tests/test_functional.py
+
 import unittest
-from flask_testing import TestCase
+
 from flask_login import current_user
-from project import app, db
-from project.models import User, BlogPost
 
-
-class BaseTestCase(TestCase):
-    """ A Base test case """
-
-    def create_app(self):
-        app.config.from_object('config.TestConfig')
-        return app
-
-    def setUp(self):
-        db.create_all()
-        db.session.add(User("admin", "ad@min.com", "admin"))
-        db.session.add(BlogPost("Test post",
-                                "This is a test. Only a test.", "admin"))
-        db.session.commit()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+from base import BaseTestCase
 
 
 class FlaskTestCase(BaseTestCase):
@@ -35,6 +18,11 @@ class FlaskTestCase(BaseTestCase):
     def test_main_route_requires_login(self):
         response = self.client.get('/', follow_redirects=True)
         self.assertTrue(b'Please log in to access this page.' in response.data)
+
+    # Ensure welcome route works as expected
+    def test_welcome_route_works_as_expected(self):
+        response = self.client.get('/welcome', follow_redirects=True)
+        self.assertTrue(b'Welcome to Flask!' in response.data)
 
     # Ensure that posts show up on the main page
     def test_post_show_up(self):
@@ -79,7 +67,7 @@ class UsersViewsTests(BaseTestCase):
                 data=dict(username="admin", password="admin"),
                 follow_redirects=True
             )
-            response = self.client.get('/logout',follow_redirects=True)
+            response = self.client.get('/logout', follow_redirects=True)
             self.assertIn(b'You were just logged out', response.data)
             # Flask-Login > 0.3 treats is_active as a property not a method
             self.assertFalse(current_user.is_active)
@@ -89,18 +77,6 @@ class UsersViewsTests(BaseTestCase):
     def test_logout_route_requires_login(self):
         response = self.client.get('/logout', follow_redirects=True)
         self.assertTrue(b'Please log in to access this page.' in response.data)
-
-    # Ensure user can register
-    def test_user_registration(self):
-        with self.client:
-            response = self.client.post(
-                '/register',
-                data=dict(username="Rebekah", email="skate@liberty.com",
-                          password="skater", confirm="skater"),
-                follow_redirects=True)
-            self.assertIn(b'Welcome to Flask!', response.data)
-            self.assertTrue(current_user.name == "Rebekah")
-            self.assertTrue(current_user.is_active)
 
 
 if __name__ == '__main__':
