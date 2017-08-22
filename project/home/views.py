@@ -3,7 +3,7 @@
 #################
 
 from project import db  # pragma: no cover
-from project.models import BlogPost  # pragma: no cover
+from project.models import BlogPost, PapResults  # pragma: no cover
 from project.home.forms import MessageForm  # pragma: no cover
 from flask import render_template, Blueprint, flash, \
                   url_for, redirect, request  # pragma: no cover
@@ -40,9 +40,9 @@ def home():
         flash('New entry was successfully posted. Thanks.')
         return redirect(url_for('home.home'))
     else:
-        posts = db.session.query(BlogPost).all()
+        patients = db.session.query(PapResults).all()
         return render_template('index.html',
-                               posts=posts, form=form, error=error)
+                               patients=patients, form=form, error=error)
 
 
 @home_blueprint.route('/welcome')

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Welcome to the Health Strategies Database!</h1>
+<h1>Welcome to Flask!</h1>
 <br>
 <p>Click <a href="/logout">here</a> to logout.</p>
 <br>
 
 <!-- post form -->
-<h3>Add a Patient!</h3>
+<h3>Add a Post!</h3>
 <br>
 <form class="form-message" role="form" method="post" action="/">
   {{ form.csrf_token }}
@@ -35,11 +35,11 @@
 </form>
 
 <!-- All posts -->
-<h3>Patients:</h3>
-{% for result in patients %}
-  <strong>Name:</strong> {{ result.name }} <br>
-  <strong>Phone:</strong> {{ result.phone }} <br>
-  <strong>Address:</strong> {{ result.address }} <br>
+<h3>Posts:</h3>
+{% for post in posts %}
+  <strong>Title:</strong> {{ post.title }} <br>
+  <strong>Post:</strong> {{ post.description }} <br>
+  <strong>Author:</strong> {{ post.author.name }} <br>
 <br>
 {% endfor %}
 
